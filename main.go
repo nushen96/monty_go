@@ -21,11 +21,13 @@ func show_menu(choices []string) {
   if !is_num(user_input) {
     fmt.Println("Wrong choice. Please retry!")
     show_menu(choices)
+    return
   }
   user_choice, _ := strconv.Atoi(user_input)
   if user_choice<1 || user_choice>len(choices) {
     fmt.Println("Wrong choice. Please retry!")
     show_menu(choices)
+    return
   }
   fmt.Println(user_choice)
   fmt.Println("You chose to", choices[user_choice-1])
