@@ -5,10 +5,6 @@ import (
   "strconv"
 )
 
-func is_num(s string) bool {
-  _, err := strconv.Atoi(s)
-  return err == nil
-}
 
 func show_menu(choices []string) {
   fmt.Println("Enter the number corresponding to your choice")
@@ -17,18 +13,20 @@ func show_menu(choices []string) {
   }
   var user_input string
   fmt.Scanln(&user_input)
-  fmt.Println("You entered", user_input)
-  if !is_num(user_input) {
-    fmt.Println("Wrong choice. Please retry!")
+  user_choice, err := strconv.Atoi(user_input)
+
+  if err != nil {
+    fmt.Println("Invalid input. Please retry!")
     show_menu(choices)
     return
   }
-  user_choice, _ := strconv.Atoi(user_input)
+
   if user_choice<1 || user_choice>len(choices) {
-    fmt.Println("Wrong choice. Please retry!")
+    fmt.Println("Choice unavailable. Please retry!")
     show_menu(choices)
     return
   }
+
   fmt.Println(user_choice)
   fmt.Println("You chose to", choices[user_choice-1])
 }
