@@ -20,24 +20,14 @@ func getRandomDoor(doors []int) int {
   return doors[randomDoor]
 }
 
-func getProposableDoor(selectedDoor int, winningDoor int, doors []int) (proposableDoor int) {
+func getRemainingDoor(door1 int, door2 int, doors []int) (remainingDoor int) {
   for _,door := range doors {
-    if door!=selectedDoor && door!=winningDoor {
-      proposableDoor = door
+    if door!=door1 && door!=door2 {
+      remainingDoor = door
       break
     }
   }
   return
-}
-
-func getRemainingDoors(selectedDoor int, doors []int) []int {
-  var remainingDoors []int
-  for _,door := range doors {
-    if door != selectedDoor {
-      remainingDoors = append(remainingDoors, door)
-    }
-  }
-  return remainingDoors
 }
 
 func playGameMode() {
@@ -45,20 +35,24 @@ func playGameMode() {
   winningDoor := getRandomDoor(doors)
   selectedDoorChoices := getDoorsLabels(doors) 
   selectedDoor := showMenu(selectedDoorChoices)
-  remainingDoors := getRemainingDoors(selectedDoor, doors) 
-  doorToPropose := getProposableDoor(selectedDoor, winningDoor, doors)
-  fmt.Printf("You have selected door %d. Door %d is empty. Do you want to change your choice?\n", selectedDoor, doorToPropose)
+  emptyDoor := getRemainingDoor(selectedDoor, winningDoor, doors)
+  remainingDoor := getRemainingDoor(selectedDoor, emptyDoor, doors)
+  fmt.Printf("You have selected door %d. Door %d is empty. Do you want to change your choice to door %d?\n", selectedDoor, emptyDoor, remainingDoor)
   changeConfirmationChoices := []string{"Yes", "No"}
   changeConfirmation := showMenu(changeConfirmationChoices)
 
   switch changeConfirmation {
   case 1:
-    fmt.Println("You have chosen to change your door. Please select a new door ?")
-    remainingDoorsLabels := getDoorsLabels(remainingDoors)
-    newDoor := showMenu(remainingDoorsLabels)
-    fmt.Printf("You've changed your door. You have now door %d\n", newDoor)
+    selectedDoor = remainingDoor
+    fmt.Printf("You have chosen to change your door. You have now door %d\n", selectedDoor)
   case 2:
     fmt.Printf("You have chosen to keep your door.\n")
+  }
+  
+  if selectedDoor == winningDoor {
+    fmt.Println("Congratulations! You've just won a beautiful car.")
+  } else {
+    fmt.Println("Oops! You lost. Take that stinky goat with you.")
   }
 
 }
