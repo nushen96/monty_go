@@ -4,7 +4,30 @@ import (
 	"fmt"
 	"strconv"
   "math/rand"
+  "errors"
 )
+
+type Stats struct {
+  Played int
+  Won int
+}
+
+var gameModeStats Stats = Stats{Played: 0, Won: 0}
+
+func calculatePercentage(num1 int, num2 int) (float64, error) {
+  if num2 == 0 {
+    return 0, errors.New("Division by zero")
+  }
+
+  return (float64(num1) / float64(num2)) * 100, nil
+}
+
+func updateStats(havePlayerWon bool) {
+  gameModeStats.Played += 1
+  if havePlayerWon {
+    gameModeStats.Won += 1
+  } 
+}
 
 func getDoorsLabels(doors []int) (labels []string) {
   for _,door := range doors {
@@ -48,13 +71,16 @@ func playGameMode() {
   case 2:
     fmt.Printf("You have chosen to keep your door.\n")
   }
-  
+  var havePlayerWon bool 
   if selectedDoor == winningDoor {
     fmt.Println("Congratulations! You've just won a beautiful car.")
+    havePlayerWon = true
   } else {
     fmt.Println("Oops! You lost. Take that stinky goat with you.")
   }
-
+  updateStats(havePlayerWon)
+  winningPercentage, _ := calculatePercentage(gameModeStats.Won, gameModeStats.Played) 
+  fmt.Printf("Games played: %d | Games won: %d | Winning percentage: %.2f%%\n", gameModeStats.Played, gameModeStats.Won, winningPercentage)
 }
 
 func showMenu(choices []string) int {
