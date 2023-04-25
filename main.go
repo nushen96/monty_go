@@ -58,7 +58,7 @@ func playGameMode() {
 }
 
 func showMenu(choices []string) int {
-	fmt.Println("Enter the number corresponding to your choice")
+	fmt.Println("\nEnter the number corresponding to your choice")
 
 	for i := 0; i < len(choices); i++ {
 		fmt.Println(i+1, "->", choices[i])
@@ -83,11 +83,25 @@ func showMenu(choices []string) int {
   return userChoice
 }
 
-func main() {
-	fmt.Println("Welcome to the monty hall game!")
+func showMainMenu() int {
   mainMenu := []string{"Game mode", "Search mode", "Exit"}
   chosenMode := showMenu(mainMenu)
-  if chosenMode == 1 {
-    playGameMode()
+
+  return chosenMode
+}
+
+func main() {
+	fmt.Println("Welcome to the monty hall game!")
+  chosenMode := showMainMenu()
+
+  for chosenMode != 3 {
+    if chosenMode == 1 {
+      playGameMode()
+    } else {
+      fmt.Println("Not implemented yet.")
+    }
+    chosenMode = showMainMenu()
   }
+
+  fmt.Println("Bye! See you soon.")
 }
