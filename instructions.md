@@ -18,7 +18,7 @@ Enter one of the following options:
 
 2. Search mode
 
-3. Output
+3. Exit
 
 Only when the user chooses to exit will the program exit. If the user chooses game mode and a game ends, the program returns to the menu and prompts the user to enter an option again. Similarly if the user chooses the search mode and the search for either strategy ends, the program also returns to the menu and asks the user again.
 
